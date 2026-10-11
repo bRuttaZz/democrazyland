@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Some Game</title>
+        <link rel="stylesheet" href="assets/style.css" />
+        <script
+            src="src/index.js"
+            type="module"
+            mime="text/javascript"
+        ></script>
+    </head>
+    <body>
+        <div class="game-canvas-container">
+            <div class="game-area">
+                <canvas class="game-canvas"></canvas>
+                <div class="canvas-overlay">
+                    <div class="fps-indicator">
+                        fps : <span class="fps-value">0</span>
+                    </div>
+                </div>
+                <div class="game-paddle-container">
+                    <div class="paddle paddle-jump"></div>
+                    <div class="paddle paddle-move"></div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
