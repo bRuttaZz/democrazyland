@@ -7,14 +7,17 @@ export const pathMaker = (sketcher) => {
   const char_path = new GameObject(`path`, {
     skin: null,
     x: 0,
-    y: CANVAS_DIMENTIONS.height - 20,
+    y: CANVAS_DIMENTIONS.height - 80,
     width: CANVAS_DIMENTIONS.width,
-    height: 10,
+    height: 90,
     zIndex: CHARACTER_ZINDEX,
     gravity: false,
-    deleteOnOffscreen: true,
+    deleteOnOffscreen: false,
     exceptSpaceAnimation: true,
-    collitionVelocityDampingFactor: 0.6,
+    collitionVelocityDampingFactor: 0.2,
+    disappearOnCollision: false,
+    preventDelete: false,
   });
+  char_path.fill = "black"
   return char_path
 }

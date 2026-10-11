@@ -13,7 +13,6 @@ export class Objects {
   constructor(sketcher) {
     this.sketcher = sketcher
     this.objects = Objects.ObjectMakers.map(maker => maker(sketcher))
-    console.log(this.objects)
   }
 
   bind() {
@@ -27,5 +26,5 @@ Objects.ObjectMakers = [
   heroMaker,
   directionObjectMaker,
 
-  pathMaker,
+  pathMaker,  // last one
 ]

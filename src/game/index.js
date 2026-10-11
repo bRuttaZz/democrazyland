@@ -5,6 +5,7 @@ import {
   registerCharacterJumpKeyBindings,
 } from "./keybindings.js";
 import { Objects } from "./objects"
+import { BGMaker } from "./bg.js";
 import { DEBUG } from "./conf.js";
 
 
@@ -16,6 +17,7 @@ export class Game{
   constructor(sketcher) {
     this.sketcher = sketcher;
     this.objects = new Objects(this.sketcher);
+    this.bgMaker = new BGMaker(this.sketcher);
     if (DEBUG)
       this.sketcher.fpsIndicator = document.querySelector(".fps-value");
   }
@@ -35,6 +37,7 @@ export class Game{
    * @param {Array<GameObject>} items - game objects
    */
   animator(zindex, items) {
+    this.bgMaker.animator(zindex, items);
     gameAnimator(zindex, items);
   }
 }

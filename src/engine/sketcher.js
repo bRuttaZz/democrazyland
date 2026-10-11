@@ -1,4 +1,4 @@
-import { SKETCHER_UNIT_DIVIDING_FACTOR, CANVAS_DIMENTIONS } from "./conf.js";
+import { SKETCHER_UNIT_DIVIDING_FACTOR, CANVAS_DIMENTIONS, MAX_FPS } from "./conf.js";
 // draw canvas items
 
 export class Sketcher {
@@ -16,7 +16,14 @@ export class Sketcher {
     this._fps = 0;
     this._fpsCounter = 0;
     this.fpsIndicator = null;
-    this._animator = () => {};
+    this._drawCallbacks = () => { }; // executed on each canvas draw
+    this._animator = () => { };
+
+    this.FPS = MAX_FPS
+    this.frameIntervel = 1000 / MAX_FPS;
+    this._lastRefreshTime = 0;
+
+    this.canvasBgImg = canvas.style.backgroundImage
 
     this._setSketcherUnits();
     self.window.addEventListener("resize", this._setSketcherUnits.bind(this));
@@ -50,10 +57,22 @@ export class Sketcher {
     return this._animator;
   }
 
+  get drawCallbacks() {
+    return this._drawCallbacks;
+  }
+
   /**
-   * set animatior to be called in between each graphics drawing
+   * set callbacks to be called on each canvas draw event
    * @param {CallableFunction} - callable
    */
+  set drawCallbacks(callable) {
+    return this._drawCallbacks = callable
+  }
+
+  /**
+  * set animatior to be called in between each graphics drawing
+  * @param {CallableFunction} - callable
+  */
   set animator(callable) {
     this._animator = callable;
   }
@@ -64,23 +83,23 @@ export class Sketcher {
     CANVAS_DIMENTIONS.width =
       this._width =
       this.canvas.width =
-        SKETCHER_UNIT_DIVIDING_FACTOR;
+      SKETCHER_UNIT_DIVIDING_FACTOR;
     CANVAS_DIMENTIONS.height =
       this._height =
       this.canvas.height =
-        SKETCHER_UNIT_DIVIDING_FACTOR * sketcherUnitH;
+      SKETCHER_UNIT_DIVIDING_FACTOR * sketcherUnitH;
   }
 
   _drawItems() {
     // draw in order
-    const zIndices = Object.keys(this._gameItems).sort();
-    for (const zIndex of zIndices) {
+    this._drawCallbacks();
+    this.cntxt.clearRect(0, 0, this.width, this.height);
+    for (const zIndex of this._zIndices) {
       const elems = this._gameItems[zIndex];
       // call custom animator
       this._animator(zIndex, elems);
       // draw elements
       this.cntxt.beginPath();
-      this.cntxt.clearRect(0, 0, this.width, this.height);
       elems.forEach((item) => {
         if (item.skin)
           this.cntxt.drawImage(
@@ -89,10 +108,10 @@ export class Sketcher {
             0,
             item.skin.width,
             item.skin.height,
-            item.x,
-            item.y,
-            item.width,
-            item.height,
+            item.x - item.leftOffset,
+            item.y - item.topOffset,
+            item.width + item.leftOffset + item.rightOffset,
+            item.height + item.topOffset + item.bottomOffset,
           );
         else {
           this.cntxt.fillStyle = item.fill;
@@ -116,6 +135,7 @@ export class Sketcher {
    */
   addItem(zindex, item) {
     item.zIndex = zindex;
+    item.calcSpaceAnimVelocity();
     if (!this._gameItems[zindex]) this._gameItems[zindex] = [];
     this._gameItems[zindex].push(item);
   }
@@ -124,9 +144,15 @@ export class Sketcher {
    * Start drawing
    */
   start() {
-    const _animator = () => {
-      this._drawItems();
+    this.canvas.style.backgroundImage = "none"
+    this._zIndices = Object.keys(this._gameItems).sort();
+    const _animator = (time) => {
       this._animationFrameKey = requestAnimationFrame(_animator);
+
+      if (time - this._lastRefreshTime < this.frameIntervel)
+        return
+      this._lastRefreshTime = time;
+      this._drawItems();
     };
     _animator();
   }
@@ -136,5 +162,16 @@ export class Sketcher {
    */
   stop() {
     cancelAnimationFrame(this._animationFrameKey);
+  }
+
+  /**
+  * Reset sketcher
+  */
+  reset() {
+    this._gameItems = {}
+    this._drawCallbacks = () => { };
+    this._animator = () => { };
+    this.cntxt.clearRect(0, 0, this.width, this.height);
+    this.canvas.style.backgroundImage = this.canvasBgImg;
   }
 }
