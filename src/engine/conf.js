@@ -14,7 +14,7 @@ export const ANIMATION_VARS = {
   spaceAnimator: {
     status: false, // running status (set true to apply)
     // speeds can either be a generic one or zindex based range of speed.
-    hzntlSpeed: { 0: -2, 20: -10 } || -1,
+    hzntlSpeed: { 0: -2, 9: -10 } || -1,
     vrtclSpeed: 0,
     odometer: 0,
   },

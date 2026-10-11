@@ -11,11 +11,11 @@ export class BGMaker {
   constructor(sketcher) {
     this.sketcher = sketcher
     // this.sketcherZindices = [CHARACTER_ZINDEX - 7, CHARACTER_ZINDEX - 5, CHARACTER_ZINDEX - 3, CHARACTER_ZINDEX - 1]
-    this.sketcherZindices = [ -1 ]
+    this.sketcherZindices = [ 1, 2 , 3]
     // this.spaceAnimation = [-1, -2, -3, -4]
-    this.spaceAnimation = [-4]
+    this.spaceAnimation = [-2, -3, -4]
     // this.layerXNow = [0, 0, 0, 0]
-    this.layerXNow = [0]
+    this.layerXNow = [0, 0, 0]
     this.layers = assetStore.img.bg;
     this.garbageCounter = 0
 
@@ -32,7 +32,7 @@ export class BGMaker {
     this.garbageCounter++;
     const layer = new GameObject(`bg-layer-${layerIndex}-${this.garbageCounter}`, {
       skin: this.layers[layerIndex],
-      x: this.layerXNow[layerIndex] + this.spaceAnimation[layerIndex] - 10, // adding a salt as well
+      x: this.layerXNow[layerIndex] + this.spaceAnimation[layerIndex] - 12, // adding a salt as well
       y: 0,
       width: this.imgWidth,
       height: CANVAS_DIMENTIONS.height,
@@ -69,7 +69,7 @@ export class BGMaker {
   */
   init() {
     [
-      0, // 1, 2, 3
+      0, 1, 2, // 3
     ].forEach(index => this._createNewBG(index))
   }
 }

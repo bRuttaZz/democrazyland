@@ -5,10 +5,10 @@ import { CANVAS_DIMENTIONS } from "../../engine/conf.js"
 
 export const heroMaker = (sketcher) => {
   const mainCharacter = new GameObject(MAIN_CHARACTER_OBJ_NAME, {
-    x: 400,
-    y: CANVAS_DIMENTIONS.height - 400,
-    width: 100,
-    height: 200,
+    x: 500,
+    y: 1000,
+    width: 150,
+    height: 300,
     zIndex: CHARACTER_ZINDEX,
     gravity: true,
     deleteOnOffscreen: true,

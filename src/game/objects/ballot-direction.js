@@ -5,10 +5,10 @@ import { CANVAS_DIMENTIONS } from "../../engine/conf.js"
 // Oscillating particle
 export const directionObjectMaker = (sketcher) => {
   const directionObject = new GameObject("directionObject", {
-    x: CANVAS_DIMENTIONS.width / 2 - 100,
-    y: 100,
-    width: 200,
-    height: 100,
+    x: CANVAS_DIMENTIONS.width / 2 - 150,
+    y: 200,
+    width: 300,
+    height: 180,
     zIndex: INFOTILE_ZINDEX,
     gravity: false,
     disappearOnCollision: true,

@@ -1,3 +1,7 @@
+:root {
+    --canvas-bg: #7ec4ff;
+}
+
 div,
 img {
     -webkit-tap-highlight-color: transparent;
@@ -13,13 +17,16 @@ img {
 .game-area {
     position: relative;
     border: 1px solid black;
-    width: 60vw;
-    height: calc(60vw * 2 / 3);
+    height: 60vh;
+    aspect-ratio: 4/5;
+    /*width: 60vw;*/
+    /*height: calc(60vw * 2 / 3);*/
 }
 
 .game-canvas {
     width: 100%;
     height: 100%;
+    background-color: var(--canvas-bg);
 }
 
 .canvas-overlay {

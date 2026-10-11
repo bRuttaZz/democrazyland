@@ -2,6 +2,7 @@ export const assetStore = {
   img: {
     // Object<String, Array<HTMLImageElement>>
     bg: null,
+    platform: null,
   },
   audio: {
     // Object<String, ArrayBuffer>
@@ -16,8 +17,13 @@ export const assetStatus = {
 
 const imgAssetSrc = {
   bg: [
-    new URL("../../assets/imgs/bg1.jpg", import.meta.url),
+    new URL("../../assets/imgs/bg0.png", import.meta.url),
+    new URL("../../assets/imgs/bg1.png", import.meta.url),
+    new URL("../../assets/imgs/bg2.png", import.meta.url),
   ],
+  platform: [
+    new URL("../../assets/imgs/platform.png", import.meta.url),
+  ]
 };
 
 const audioAssetSrc = {
