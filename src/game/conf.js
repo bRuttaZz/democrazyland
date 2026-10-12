@@ -1,5 +1,6 @@
 import { watchObject } from "../utils"
 import { ANIMATION_VARS } from "../engine/conf.js"
+import { audioEngine } from "../audio-engine/engine.js"
 
 
 export const DEBUG = true;
@@ -24,6 +25,10 @@ export const CHARACTER_VARS = watchObject({
 }, (obj, key, value, old) => {
   if (!obj.onControl) return
   switch (key) {
+    case "jumping":
+      if (value)
+        audioEngine.play("jump")
+      break
     case "onAir":
       ANIMATION_VARS.spaceAnimator.status = value || !obj.standing;
       break

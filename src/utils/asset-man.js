@@ -6,6 +6,10 @@ export const assetStore = {
   },
   audio: {
     // Object<String, ArrayBuffer>
+    start: null,
+    jump: null,
+    gameOver: null,
+    tada: null
   },
 };
 
@@ -27,7 +31,14 @@ const imgAssetSrc = {
 };
 
 const audioAssetSrc = {
-  // unniJump: new URL("../../assets/game/audio/jump.wav", import.meta.url),
+  start: new URL("../../assets/audio/start.mp3", import.meta.url),
+  jump: new URL("../../assets/audio/jump.mp3", import.meta.url),
+  gameOver: new URL("../../assets/audio/game-over.mp3", import.meta.url),
+  tada: new URL("../../assets/audio/tada.mp3", import.meta.url),
+
+  bgMain: new URL("../../assets/audio/bg-loop.mp3", import.meta.url),
+  bgNoise: new URL("../../assets/audio/noise-loop.mp3", import.meta.url),
+
 };
 
 /**

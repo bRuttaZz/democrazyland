@@ -2,6 +2,7 @@ import { GameObject } from "../engine/game-object.js";
 import { physicsAnimator } from "../engine/animators/physics-animator.js";
 import { spaceAnimator } from "../engine/animators/space-animator.js";
 import { ANIMATION_VARS } from "../engine/conf.js"
+import { audioEngine } from "../audio-engine/engine.js"
 import { gameAnimator } from "./animators.js";
 import { registerCharacterJumpKeyBindings } from "./keybindings.js";
 import { Objects } from "./objects.js"
@@ -32,6 +33,7 @@ export class Game extends EventTarget{
 
     this.sketcher.addEventListener("victory", async () => {
       this.dispatchEvent(new Event("victory"));
+      audioEngine.play("tada");
       CHARACTER_VARS.onControl = false
       CHARACTER_VARS.standing = true
       CHARACTER_VARS.jumping = true
@@ -44,6 +46,7 @@ export class Game extends EventTarget{
     })
     this.sketcher.addEventListener("wasted", () => {
       this.dispatchEvent(new Event("wasted"));
+      audioEngine.play("game-over");
       sketcher.stop();
     })
   }
@@ -52,6 +55,9 @@ export class Game extends EventTarget{
    * Bind characters and game listerns
    */
   start() {
+    audioEngine.play("start");
+    audioEngine.playInBg("bgMain");
+    audioEngine.playInBg("bgNoise");
     this.objects.bind();
     registerCharacterJumpKeyBindings();
     this.sketcher.start();

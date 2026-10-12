@@ -7,6 +7,16 @@ img {
     -webkit-tap-highlight-color: transparent;
 }
 
+.justify-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.d-none {
+    display: none !important;
+}
+
 .game-canvas-container {
     display: flex;
     justify-content: center;
