@@ -1,12 +1,13 @@
 import { SKETCHER_UNIT_DIVIDING_FACTOR, CANVAS_DIMENTIONS, MAX_FPS } from "./conf.js";
 // draw canvas items
 
-export class Sketcher {
+export class Sketcher extends EventTarget {
   /**
    *
    * @param {HTMLCanvasElement} canvas - canvas element
    */
   constructor(canvas) {
+    super();
     this.canvas = canvas;
     this.cntxt = this.canvas.getContext("2d");
     this._width = 0;
@@ -18,6 +19,7 @@ export class Sketcher {
     this.fpsIndicator = null;
     this._drawCallbacks = () => { }; // executed on each canvas draw
     this._animator = () => { };
+    this._externalDrawer = () => { };
 
     this.FPS = MAX_FPS
     this.frameIntervel = 1000 / MAX_FPS;
@@ -77,6 +79,10 @@ export class Sketcher {
     this._animator = callable;
   }
 
+  set externalDrawer(callable) {
+    this._externalDrawer = callable;
+  }
+
   _setSketcherUnits() {
     const dimentions = this.canvas.getBoundingClientRect();
     const sketcherUnitH = dimentions.height / dimentions.width;
@@ -119,6 +125,7 @@ export class Sketcher {
         }
       });
     }
+    this._externalDrawer(this.cntxt);
     this._fpsCounter++;
   }
 
@@ -137,7 +144,20 @@ export class Sketcher {
     item.zIndex = zindex;
     item.calcSpaceAnimVelocity();
     if (!this._gameItems[zindex]) this._gameItems[zindex] = [];
-    this._gameItems[zindex].push(item);
+
+    // insert just before the last item (saving path object)
+    if (this._gameItems[zindex].length)
+      this._gameItems[zindex].splice(this._gameItems[zindex].length - 1, 0, item);
+    else
+      this._gameItems[zindex].push(item);
+  }
+
+  changeItemZindex(zindex, oldZindex, item) {
+    const i = this._gameItems[oldZindex].indexOf(item)
+    if (i < 0) return false
+
+    this._gameItems[oldZindex].splice(i, 1)
+    this._gameItems[zindex].push(item)
   }
 
   /**

@@ -13,14 +13,16 @@ export function physicsAnimator(zindex, items) {
       item.isHorizontalCollided = false;
       item.isVerticalCollided = false;
       item.isCollided = false;
+      item.isGrounded = false;
       items.slice(i + 1).forEach((obj) => item.calcCollition(obj));
     }
     const del = item.wrap();
     if (!del) {
       _toRemove.push(item.id);
     }
+    item.dispatchEvent(new Event("object-updated"))
   });
-  if (_toRemove.length) console.debug("items removed from track :", _toRemove); // TODO: remove this debug message
+  if (_toRemove.length) console.debug("items removed from track :", _toRemove);
 
   _toRemove.forEach((id) => {
     const i = items.findIndex(item => item.id == id);

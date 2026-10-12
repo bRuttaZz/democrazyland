@@ -18,6 +18,7 @@ export class GameObject extends EventTarget {
    * @param {Number} options.collitionVelocityDampingFactor - damping factor
    * @param {Boolean} options.exceptSpaceAnimation - except space animation
    * @param {Boolean} options.disappearOnCollision - disappear on collision
+   * @param {Array<String>} options.ignoreCollisionExceptBottom - ignore all collisions except bottom ones for the list of object ids
    * @param {Number} options.leftOffset - left offset to draw skin (in sketcher unit)
    * @param {Number} options.rightOffset - right offset to draw skin (in sketcher unit)
    * @param {Number} options.topOffset - top offset to draw skin (in sketcher unit)
@@ -38,6 +39,7 @@ export class GameObject extends EventTarget {
       collitionVelocityDampingFactor: 1,
       exceptSpaceAnimation: false,
       disappearOnCollision: false,
+      ignoreCollisionExceptBottom: [],
       leftOffset: 0,
       rightOffset: 0,
       topOffset: 0,
@@ -55,6 +57,7 @@ export class GameObject extends EventTarget {
     this.fill = "green";
     this.zIndex = _options.zIndex;
     this.disappearOnCollision = _options.disappearOnCollision;
+    this.ignoreCollisionExceptBottom = _options.ignoreCollisionExceptBottom;
     this.leftOffset = _options.leftOffset;
     this.rightOffset = _options.rightOffset;
     this.topOffset = _options.topOffset;
@@ -91,6 +94,7 @@ export class GameObject extends EventTarget {
     this.isHorizontalCollided = false;
     this.isVerticalCollided = false;
     this.isCollided = false;
+    this.isGrounded = false;
 
     this._spaceAnimationHzntlSpeed = 0;
     this._spaceAnimationVrtclSpeed = 0;
@@ -186,42 +190,54 @@ export class GameObject extends EventTarget {
 
       if (hrzntlIntercept > vrtclIntercept) {
         // collition happened horizontally
+        let collisionApplied = false;
         if (this._newY + this.height / 2 > object.y + object.height / 2) {
           // this under other object
-          this._newY = object.y + object.height;
+          if (!this.ignoreCollisionExceptBottom.includes(object.name)) {  // except if this one does not want collisions
+            this._newY = object.y + object.height;
+            collisionApplied = true;
+          }
         } else {
           // this above other object
-          this._newY = object.y - this.height;
+          if (!object.ignoreCollisionExceptBottom.includes(this.name)) {  // except if the other-one does not want collision
+            this._newY = object.y - this.height;
+            collisionApplied = true;
+            this.isGrounded = true;
+          }
         }
 
         // avoid calculating zero scenario
-        if (this.gravity)
-          this.yVelocityVector =
-            -this.yVelocityVector * object.collitionVelocityDampingFactor;
-        if (object.gravity)
-          object.yVelocityVector =
-            -object.yVelocityVector * this.collitionVelocityDampingFactor;
+        if (collisionApplied) {
+          if (this.gravity)
+            this.yVelocityVector =
+              -this.yVelocityVector * object.collitionVelocityDampingFactor;
+          if (object.gravity)
+            object.yVelocityVector =
+              -object.yVelocityVector * this.collitionVelocityDampingFactor;
+        }
 
         this.isHorizontalCollided = true;
         this.isVerticalCollided = false;
 
       } else {
-        // collision happened vrtically
-        if (this._newX + this.width / 2 > object.x + object.width / 2) {
-          // this right to the other object
-          this._newX = object.x + object.width;
-        } else {
-          // this left to the other object
-          this._newX = object.x - this.width;
-        }
+        if (!(this.ignoreCollisionExceptBottom.includes(object.name) || object.ignoreCollisionExceptBottom.includes(this.name))) {
+          // collision happened vrtically
+          if (this._newX + this.width / 2 > object.x + object.width / 2) {
+            // this right to the other object
+            this._newX = object.x + object.width;
+          } else {
+            // this left to the other object
+            this._newX = object.x - this.width;
+          }
 
-        // avoid calculating zero scenario
-        if (this.gravity)
-          this.xVelocityVector =
-            -this.xVelocityVector * object.collitionVelocityDampingFactor;
-        if (object.gravity)
-          object.xVelocityVector =
-            -object.xVelocityVector * this.collitionVelocityDampingFactor;
+          // avoid calculating zero scenario
+          if (this.gravity)
+            this.xVelocityVector =
+              -this.xVelocityVector * object.collitionVelocityDampingFactor;
+          if (object.gravity)
+            object.xVelocityVector =
+              -object.xVelocityVector * this.collitionVelocityDampingFactor;
+        }
 
         this.isHorizontalCollided = false;
         this.isVerticalCollided = true;
