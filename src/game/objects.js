@@ -68,6 +68,9 @@ export const heroMaker = (sketcher) => {
     y: CHARACTER_Y_INIT,
     width: 180,
     height: 400,
+    leftOffset: 50,
+    rightOffset: 50,
+    topOffset: 50,
     zIndex: CHARACTER_ZINDEX,
     gravity: true,
     deleteOnOffscreen: true,
@@ -78,6 +81,18 @@ export const heroMaker = (sketcher) => {
   mainCharacter.addEventListener("deleted", () => {
     sketcher.dispatchEvent(new Event("wasted"));
   });
+
+  mainCharacter.proChar = true;
+  mainCharacter.skinArray = {
+    run: assetStore.img.heroRun,
+    jump: assetStore.img.heroJump,
+    stand: assetStore.img.heroStand,
+  };
+  mainCharacter.skinArrayRunIndex = 0;
+  mainCharacter.skinIdleIndex = 0;
+  mainCharacter.skinArrayRunIndexMax = assetStore.img.heroRun.length;
+  mainCharacter.skinIdleIndexMax = assetStore.img.heroStand.length;
+
   return mainCharacter;
 }
 

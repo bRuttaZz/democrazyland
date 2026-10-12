@@ -1,3 +1,4 @@
+import { ANIMATION_VARS } from "../engine/conf.js";
 import {
   MAIN_CHARACTER_OBJ_NAME,
   JUMP_VELOCITY,
@@ -18,6 +19,7 @@ export function gameAnimator(zindex, items) {
   items.forEach((item) => {
     _leftieSpaceAnimDecider(zindex, item);
     _obstacleActionLogics(zindex, item);
+    _skinAnimator(zindex, item);
 
     _characterJumpObjectAnimator(zindex, item);
     _oscillationAnimator(zindex, item);
@@ -74,6 +76,7 @@ function _leftieSpaceAnimDecider(_zindex, item) {
     item.x <= CHARACTER_X_INIT - (item.stopAtXRelativeToMainChar || 200)
   ){
     item.spaceAnimation = false;
+    item.proChar = true;
   }
 }
 
@@ -139,5 +142,44 @@ function _obstacleActionLogics(_zindex, item) {
     if (xDiff <= 500) {
       item.dispatchEvent(new Event("collided"))
     }
+  }
+}
+
+/**
+ * Skin animators
+ * @param {Number} _zindex
+ * @param {GameObject} item
+ */
+function _skinAnimator(_zindex, item) {
+  if (item.proChar === true) {
+    if (ANIMATION_VARS.spaceAnimator.status) {
+      if (item.isHorizontalCollided) {
+        // running state
+        item.skinArrayRunIndex = item.skinArrayRunIndex + 0.125;
+        item.skinIdleIndex = 0;
+        const indx =
+          parseInt(item.skinArrayRunIndex) % item.skinArrayRunIndexMax;
+        item.skin = item.skinArray.run[indx];
+        // I know, I could ve used a simple % opertator! But there is a glitch using that
+      } else {
+        // jumping state
+        item.skinArrayRunIndex = 2; // ensure run from starting frame
+        item.skinIdleIndex = 0;
+        if (item.yVelocityVector < 0) item.skin = item.skinArray.jump[0];
+        else item.skin = item.skinArray.jump[1];
+      }
+    } else {
+      // static (without horizontal velocity)
+      item.skinArrayRunIndex = 0; // ensure run from starting frame
+      item.skinIdleIndex = item.skinIdleIndex + 0.1
+      const indx =
+        parseInt(item.skinIdleIndex) % item.skinIdleIndexMax;
+      item.skin = item.skinArray.stand[indx];
+    }
+  }
+  else if (item.idleChar === true) {
+    item.idleSkinArrayIndex = item.idleSkinArrayIndex + 0.1;
+    const indx = parseInt(item.idleSkinArrayIndex) % item.idleSkinArrayIndexMax;
+    item.skin = item.idleSkinArray[indx];
   }
 }

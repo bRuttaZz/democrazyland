@@ -3,6 +3,9 @@ export const assetStore = {
     // Object<String, Array<HTMLImageElement>>
     bg: null,
     platform: null,
+    heroRun: null,
+    heroJump: null,
+    heroStand: null,
   },
   audio: {
     // Object<String, ArrayBuffer>
@@ -27,7 +30,24 @@ const imgAssetSrc = {
   ],
   platform: [
     new URL("../../assets/imgs/platform.png", import.meta.url),
-  ]
+  ],
+
+  heroRun: [
+    new URL("../../assets/imgs/hero-run-0.png", import.meta.url),
+    new URL("../../assets/imgs/hero-run-1.png", import.meta.url),
+    new URL("../../assets/imgs/hero-run-2.png", import.meta.url),
+    new URL("../../assets/imgs/hero-run-1.png", import.meta.url),
+  ],
+  heroJump: [
+    new URL("../../assets/imgs/hero-run-1.png", import.meta.url),
+    new URL("../../assets/imgs/hero-run-2.png", import.meta.url),
+  ],
+  heroStand: [
+    new URL("../../assets/imgs/hero-run-0.png", import.meta.url),
+    new URL("../../assets/imgs/hero-run-1.png", import.meta.url),
+  ],
+
+
 };
 
 const audioAssetSrc = {
