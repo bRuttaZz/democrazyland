@@ -66,8 +66,8 @@ export const heroMaker = (sketcher) => {
   const mainCharacter = new GameObject(MAIN_CHARACTER_OBJ_NAME, {
     x: CHARACTER_X_INIT,
     y: CHARACTER_Y_INIT,
-    width: 150,
-    height: 300,
+    width: 180,
+    height: 400,
     zIndex: CHARACTER_ZINDEX,
     gravity: true,
     deleteOnOffscreen: true,
