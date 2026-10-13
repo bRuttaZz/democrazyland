@@ -28,19 +28,23 @@ export class Objects {
 // Oscillating ballotbox direction
 export const directionObjectMaker = (sketcher) => {
   const directionObject = new GameObject("directionObject", {
-    x: CANVAS_DIMENTIONS.width / 2 - 150,
-    y: 600,
-    width: 300,
-    height: 180,
+    x: CANVAS_DIMENTIONS.width - 600,
+    y: 500,
+    width: 500,
+    height: 500,
     zIndex: INFOTILE_ZINDEX,
     gravity: false,
     disappearOnCollision: true,
     exceptSpaceAnimation: true,
   });
   directionObject.oscillation = true;
-  directionObject.oscillationVelocityMax = 1.5;
-  directionObject.oscillationAccilertaion = 0.05;
+  directionObject.oscillationVelocityMax = 2;
+  directionObject.oscillationAccilertaion = 0.1;
   directionObject.fill = "red";
+  directionObject.skin = assetStore.img.direction[0];
+  sketcher.addEventListener("victory-box", () => {
+    directionObject.deleted = true
+  }, {once: true})
   return directionObject
 }
 
@@ -58,6 +62,7 @@ export const pathMaker = (sketcher) => {
     collitionVelocityDampingFactor: 0.2,
     disappearOnCollision: false,
     preventDelete: false,
+    isFloor: true,
   });
   char_path.skin = assetStore.img.platform[0]
   return char_path
@@ -79,10 +84,6 @@ export const heroMaker = (sketcher) => {
     collitionVelocityDampingFactor: 0, // collision damping caused by this character
   });
   mainCharacter.fill = "blue";
-  mainCharacter.addEventListener("deleted", () => {
-    sketcher.dispatchEvent(new Event("wasted"));
-  });
-
   mainCharacter.proChar = true;
   mainCharacter.skinArray = {
     run: assetStore.img.heroRun,
@@ -97,6 +98,14 @@ export const heroMaker = (sketcher) => {
   mainCharacter.addEventListener("jump", () => {
     audioEngine.play("jump")
   })
+  mainCharacter.addEventListener("object-updated", () => {
+    // making it bit regerous for main character
+    if (mainCharacter.x + mainCharacter.width / 2 < 0)
+      mainCharacter.deleted = true;
+  })
+  mainCharacter.addEventListener("deleted", () => {
+    sketcher.dispatchEvent(new Event("wasted"));
+  });
 
   return mainCharacter;
 }

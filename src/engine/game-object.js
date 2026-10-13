@@ -45,6 +45,7 @@ export class GameObject extends EventTarget {
       topOffset: 0,
       bottomOffset: 0,
       preventDelete: false,
+      isFloor: false,
       ...options,
     };
     this.id = ++globalGameObjectCounter;
@@ -63,6 +64,7 @@ export class GameObject extends EventTarget {
     this.topOffset = _options.topOffset;
     this.bottomOffset = _options.bottomOffset;
     this.preventDelete = _options.preventDelete;
+    this.isFloor = _options.isFloor;
 
     this.baseY = 0; // to handle motion with oscillation
 
@@ -202,7 +204,8 @@ export class GameObject extends EventTarget {
           if (!object.ignoreCollisionExceptBottom.includes(this.name)) {  // except if the other-one does not want collision
             this._newY = object.y - this.height;
             collisionApplied = true;
-            this.isGrounded = true;
+            if (object.isFloor)
+              this.isGrounded = true;
           }
         }
 
@@ -254,7 +257,7 @@ export class GameObject extends EventTarget {
     this.x = this._newX;
     this.y = this._newY;
     if (
-      this.x + this.width < 0 ||
+      this.x + this.width + 800 < 0 ||
       // this.y + this.height < 0 || // forgive objects going to top (they may come back ;)
       // this.x > CANVAS_DIMENTIONS.width ||  // forgive objects in the right direction
       this.y > CANVAS_DIMENTIONS.height

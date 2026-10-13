@@ -3,9 +3,30 @@ export const assetStore = {
     // Object<String, Array<HTMLImageElement>>
     bg: null,
     platform: null,
+    direction: null,
+
+    // obstacles
+    baricade: null,
+    media: null,
+    uncles: null,
+    rss: null,
+    rssKalip: null,
+    police: null,
+    chair: null,
+    ballot: null,
+
     heroRun: null,
     heroJump: null,
     heroStand: null,
+    leftieRun: null,
+    leftieJump: null,
+    leftieStand: null,
+    cockroachRun: null,
+    cockroachJump: null,
+    cockroachStand: null,
+    mnaRun: null,
+    mnaStand: null,
+
     storyFrames: null,
   },
   audio: {
@@ -32,22 +53,101 @@ const imgAssetSrc = {
   platform: [
     new URL("../../assets/imgs/platform.png", import.meta.url),
   ],
+  direction: [
+    new URL("../../assets/imgs/direction.png", import.meta.url),
+  ],
 
+  // obstacles
+  baricade: [
+    new URL("../../assets/imgs/baricade.png", import.meta.url),
+  ],
+  media: [
+    new URL("../../assets/imgs/media-1.png", import.meta.url),
+    new URL("../../assets/imgs/media-2.png", import.meta.url),
+  ],
+  uncles: [
+    new URL("../../assets/imgs/uncles-1.png", import.meta.url),
+    new URL("../../assets/imgs/uncles-2.png", import.meta.url),
+  ],
+  rss: [
+    new URL("../../assets/imgs/rss-1.png", import.meta.url),
+    new URL("../../assets/imgs/rss-2.png", import.meta.url),
+  ],
+  rssKalip: [
+    new URL("../../assets/imgs/rss-kalipp-1.png", import.meta.url),
+    new URL("../../assets/imgs/rss-kalipp-2.png", import.meta.url),
+  ],
+  police: [
+    new URL("../../assets/imgs/police-1.png", import.meta.url),
+    new URL("../../assets/imgs/police-2.png", import.meta.url),
+  ],
+  chair: [
+    new URL("../../assets/imgs/chair.png", import.meta.url),
+  ],
+  ballot: [
+    new URL("../../assets/imgs/ballot-1.png", import.meta.url),
+    new URL("../../assets/imgs/ballot-2.png", import.meta.url),
+  ],
+
+  // characters
   heroRun: [
-    new URL("../../assets/imgs/hero-run-0.png", import.meta.url),
-    new URL("../../assets/imgs/hero-run-1.png", import.meta.url),
-    new URL("../../assets/imgs/hero-run-2.png", import.meta.url),
-    new URL("../../assets/imgs/hero-run-1.png", import.meta.url),
+    new URL("../../assets/imgs/bora-run-1.png", import.meta.url),
+    new URL("../../assets/imgs/bora-run-2.png", import.meta.url),
+    new URL("../../assets/imgs/bora-run-3.png", import.meta.url),
+    new URL("../../assets/imgs/bora-run-2.png", import.meta.url),
   ],
   heroJump: [
-    new URL("../../assets/imgs/hero-run-1.png", import.meta.url),
-    new URL("../../assets/imgs/hero-run-2.png", import.meta.url),
+    new URL("../../assets/imgs/bora-jump-1.png", import.meta.url),
+    new URL("../../assets/imgs/bora-run-1.png", import.meta.url),
+    // new URL("../../assets/imgs/bora-jump-2.png", import.meta.url),
   ],
   heroStand: [
-    new URL("../../assets/imgs/hero-run-0.png", import.meta.url),
-    new URL("../../assets/imgs/hero-run-1.png", import.meta.url),
+    new URL("../../assets/imgs/bora-idle-1.png", import.meta.url),
+    new URL("../../assets/imgs/bora-idle-2.png", import.meta.url),
+  ],
+  leftieRun: [
+    new URL("../../assets/imgs/leftie-run-1.png", import.meta.url),
+    new URL("../../assets/imgs/leftie-run-2.png", import.meta.url),
+    new URL("../../assets/imgs/leftie-run-3.png", import.meta.url),
+    new URL("../../assets/imgs/leftie-run-2.png", import.meta.url),
+  ],
+  leftieJump: [
+    new URL("../../assets/imgs/leftie-jump-1.png", import.meta.url),
+    new URL("../../assets/imgs/leftie-run-1.png", import.meta.url),
+    // new URL("../../assets/imgs/bora-jump-2.png", import.meta.url),
+  ],
+  leftieStand: [
+    new URL("../../assets/imgs/leftie-idle-1.png", import.meta.url),
+    new URL("../../assets/imgs/leftie-idle-2.png", import.meta.url),
+  ],
+  cockroachRun: [
+    new URL("../../assets/imgs/cockroch-run-1.png", import.meta.url),
+    new URL("../../assets/imgs/cockroch-run-2.png", import.meta.url),
+    new URL("../../assets/imgs/cockroch-run-3.png", import.meta.url),
+    new URL("../../assets/imgs/cockroch-run-2.png", import.meta.url),
+  ],
+  cockroachJump: [
+    new URL("../../assets/imgs/cockroch-jump-1.png", import.meta.url),
+    new URL("../../assets/imgs/cockroch-run-1.png", import.meta.url),
+    // new URL("../../assets/imgs/bora-jump-2.png", import.meta.url),
+  ],
+  cockroachStand: [
+    new URL("../../assets/imgs/cockroch-idle-1.png", import.meta.url),
+    new URL("../../assets/imgs/cockroch-idle-2.png", import.meta.url),
+  ],
+  mnaRun: [
+    new URL("../../assets/imgs/mna-run-1.png", import.meta.url),
+    new URL("../../assets/imgs/mna-run-2.png", import.meta.url),
+    new URL("../../assets/imgs/mna-run-3.png", import.meta.url),
+    new URL("../../assets/imgs/mna-run-2.png", import.meta.url),
+  ],
+  mnaStand: [
+    new URL("../../assets/imgs/mna-idle-1.png", import.meta.url),
+    new URL("../../assets/imgs/mna-idle-2.png", import.meta.url),
   ],
 
+
+  // story frames
   storyFrames: [],
 
 };

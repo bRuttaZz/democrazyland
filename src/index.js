@@ -6,6 +6,25 @@ import { audioEngine } from "./audio-engine/engine.js";
 import { micMeter, MicNotFoundError } from "./audio-engine/mic.js"
 import { Game } from "./game";
 import { modal, micBar, showAssetLoadModal } from "./utils/ui.js"
+import { wakeLock } from "./utils/wake-lock.js";
+
+
+function _uuidv4() {
+  return "10000000-1000-4000-8000-100000000000".replace(/[018]/g, c =>
+    (+c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> +c / 4).toString(16)
+  );
+}
+
+async function _justAUniqueCount() {
+  let id = self.localStorage.getItem("_id");
+  if (!id) {
+    // create one
+    id = _uuidv4();
+    self.localStorage.setItem("_id", id);
+  }
+  const resp = await fetch(`https://live.brutt.site/api/v1/usage/demo-crazy-land?_id=${id}`)
+  console.log("USAGE UPDATE: ", id, resp);
+}
 
 async function main() {
   showAssetLoadModal();
@@ -19,13 +38,13 @@ async function main() {
     `Day <b>${day}</b>. Welcome to <b>DemoCrazyLand</b>. <br>Your journey begins.`,
     day ? "Let's win this time!" : "Dive in",
     async () => {
+      wakeLock.keepAwake();
       await micMeter.init();
       await audioEngine.init(assetStore.audio);
     }
   );
   if (initRes) {
-    window.hehe = initRes
-    // if (initRes == DOMException)
+    console.error("Error init: ", initRes);
     let error = `<strong style="color: red; font-size: 0.8rem;">Oops! Something went wrong..<br>Please try again later.</strong>`
     if (initRes instanceof DOMException) {
       error = `<strong style="color: red; font-size: 0.8rem;">Oops! You have to grant temporary microphone permission to play this game!
@@ -52,16 +71,17 @@ async function main() {
 
   game.addEventListener("start", () => {
     micBar.show();
+    _justAUniqueCount();
   })
   game.addEventListener("wasted", async () => {
-    await modal.show("Oops! We lost.", "You died! Try to say the slogan bit more loud next time..", "Ok")
+    await modal.show("Oops! We lost.", "You died! Try to say the slogan a bit louder next time..", "Ok")
     let day = parseInt(self.localStorage.getItem("day") || 0)
     self.localStorage.setItem("day", day + 1);
     window.location.reload();
   })
 
   game.addEventListener("victory", async () => {
-    await modal.show("Great! We won.", "Try to make hold on to the box next time <br>(also use it properly)..", "Ok")
+    await modal.show("Great! We won.", "Try to hold on to the box next time <br>(also, use it properly)...", "Ok")
     self.localStorage.removeItem("day");
     window.location.reload();
   })

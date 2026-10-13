@@ -76,7 +76,7 @@ function _leftieSpaceAnimDecider(_zindex, item) {
     item.x <= CHARACTER_X_INIT - (item.stopAtXRelativeToMainChar || 200)
   ){
     item.spaceAnimation = false;
-    // item.proChar = true;
+    item.proChar = true;
   }
 }
 
@@ -124,8 +124,10 @@ function _obstacleActionLogics(_zindex, item) {
     item.name.startsWith("coward-obstacle")
   ) {
     const xDiff = item.x - CHARACTER_VARS.xPos
-    if (xDiff <= COWARD_OBJ_DISANCE)
-      item.xVelocityVector = 20
+    if (xDiff <= COWARD_OBJ_DISANCE) {
+      item.xVelocityVector = 30
+      item.dispatchEvent(new Event("velocity-flipped"))
+    }
   }
   if (
     item.name.startsWith("throw-away-obstacle")
@@ -171,14 +173,14 @@ function _skinAnimator(_zindex, item) {
     } else {
       // static (without horizontal velocity)
       item.skinArrayRunIndex = 0; // ensure run from starting frame
-      item.skinIdleIndex = item.skinIdleIndex + 0.1
+      item.skinIdleIndex = item.skinIdleIndex + 0.05
       const indx =
         parseInt(item.skinIdleIndex) % item.skinIdleIndexMax;
       item.skin = item.skinArray.stand[indx];
     }
   }
   else if (item.idleChar === true) {
-    item.idleSkinArrayIndex = item.idleSkinArrayIndex + 0.1;
+    item.idleSkinArrayIndex = item.idleSkinArrayIndex + 0.05;
     const indx = parseInt(item.idleSkinArrayIndex) % item.idleSkinArrayIndexMax;
     item.skin = item.idleSkinArray[indx];
   }

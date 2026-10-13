@@ -95,6 +95,7 @@ dialog button:disabled {
 .button-region {
     width: 100%;
     display: flex;
+    margin-top: -50px;
 }
 
 .button-region button {
