@@ -22,7 +22,7 @@ async function main() {
   micBar.show();
 
   game.addEventListener("wasted", async () => {
-    await modal.show("Oops! We lost.", "You died! Try to say the slogan next time..", "Ok")
+    await modal.show("Oops! We lost.", "You died! Try to say the slogan bit more loud next time..", "Ok")
     window.location.reload();
   })
 

@@ -39,7 +39,7 @@ function _characterJumpObjectAnimator(_zindex, item) {
     CHARACTER_VARS.xPos = item.x + item.width
 
     if (
-      item.isHorizontalCollided &&
+      item.isGrounded &&
       CHARACTER_VARS.jumping
     ) {
       item.dispatchEvent(new Event("jump"));

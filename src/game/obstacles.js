@@ -59,7 +59,7 @@ Obstacles.chart = {
 
 function __baseObstacle() {
   return new GameObject(`weak-obstacle-${Date.now()}`, {
-    x: CANVAS_DIMENTIONS.width-5,
+    x: CANVAS_DIMENTIONS.width+2,
     y: CHARACTER_Y_INIT,
     width: 180,
     height: 400,

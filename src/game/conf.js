@@ -8,7 +8,7 @@ export const MAIN_CHARACTER_OBJ_NAME = "Neha-Bora";
 export const JUMP_VELOCITY = -60;
 
 export const CHARACTER_X_INIT = 500;
-export const CHARACTER_Y_INIT = 1500;
+export const CHARACTER_Y_INIT = 1700;
 export const CHARACTER_ZINDEX = 5;
 
 export const INFOTILE_ZINDEX = CHARACTER_ZINDEX + 1;
