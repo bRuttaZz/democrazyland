@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Anti National</title>
+        <title>DemoCrazyLand</title>
         <link rel="stylesheet" href="assets/style.css" />
         <script
             src="src/index.js"
@@ -12,16 +12,38 @@
         ></script>
     </head>
     <body>
-        <dialog id="modal">
-            <div class="justify-center margin-b"><strong class="modal-head"></strong></div>
-            <div class="modal-body justify-center margin-b">...</div>
-            <div class="modal-footer justify-center">
-                <button class="modal-btn0 d-none">Close</button>
-                <button class="modal-btn1 d-none">Ok</button>
-            </div>
-        </dialog>
         <div class="game-canvas-container">
+            <div class="button-region">
+                <button class="start-over-btn">Start Over</button>
+            </div>
+            <div class="text-class">
+                <h2>DemoCrazyLand</h2>
+                <p>
+                    Big story short: Years before some thieves have entered the world's most <b>Sacred DemoCrazy-Land!</b>
+                    <br>And they're causing some big troubles.
+                    <br>Let's see if you can help resolve the serious-flashy-latest issue.
+                        Use the word "<b>Vote-Chor</b>" to navigate through.
+                    <br>It's okay if you lose the first time. Good things demand time to maintain...
+                </p>
+            </div>
             <div class="game-area">
+
+                <dialog id="modal">
+                    <div class="justify-center margin-b"><strong class="modal-head"></strong></div>
+                    <div class="modal-body margin-b">...</div>
+                    <div class="modal-footer justify-center">
+                        <button class="modal-btn0 d-none">Close</button>
+                        <button class="modal-btn1 d-none">Ok</button>
+
+                        <div class="progress-section modal-progress justify-center">
+                            <div class="progress-container">
+                                <div class="loading-progress-bar" id="progressBar"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </dialog>
+
                 <canvas class="game-canvas"></canvas>
                 <div class="canvas-overlay">
                     <div class="fps-indicator">
@@ -36,14 +58,16 @@
                     <span class="mic-bar-label">LOUD!</span>
 
                     <div class="mic-hint">
-                        <span>Bolo <span class="mic-hint-word">"Vote Chor"</span> to jump!</span>
+                        <span>Say <span class="mic-hint-word">"Vote Chor"</span> to jump!</span>
                     </div>
 
                 </div>
                 <div class="game-paddle-container">
                     <div class="paddle paddle-jump"></div>
-                    <div class="paddle paddle-move"></div>
                 </div>
+            </div>
+            <div class="source-code">
+                <a href="https://github.com/bruttazz/democrazyland">&lt;source/&gt;</a>
             </div>
         </div>
     </body>

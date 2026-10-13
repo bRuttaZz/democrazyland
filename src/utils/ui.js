@@ -1,6 +1,13 @@
+import { assetStatus } from "./asset-man.js"
+
+document.querySelector(".start-over-btn")?.addEventListener("click", () => {
+  self.localStorage.removeItem("day");
+  window.location.reload();
+})
+
 class Modal {
   constructor() {
-    this.modal = document.getElementById("modal");
+    this.modal = document.querySelector("dialog");
     this.header = document.querySelector(".modal-head");
     this.body = document.querySelector(".modal-body");
     this.btn1 = document.querySelector(".modal-btn0");
@@ -10,19 +17,39 @@ class Modal {
     this._btn2Callback = async () => { }
     this._utilCallback = () => { }
 
-    this.btn1.addEventListener("click", async () => {
-      await this._btn1Callback();
-      this.modal.close();
-      this._utilCallback();
-    })
-    this.btn2.addEventListener("click", async () => {
-      await this._btn2Callback();
-      this.modal.close();
-      this._utilCallback();
-    })
+    [
+      [this.btn1, "_btn1Callback"],
+      [this.btn2, "_btn2Callback"]
+    ].forEach((el) => {
+       el[0].addEventListener("click", async () => {
+         try {
+            el[0].disabled = true;
+            await this[el[1]]();
+            this.modal.close();
+            return this._utilCallback(false);
+         } catch (e) {
+            return this._utilCallback(e);
+         } finally {
+            el[0].disabled = false;
+         }
+       })
+    });
+
+    // prevent modal escape
+    this.modal.addEventListener('cancel', (event) => {
+      if (event.key === 'Escape' && preventClosing) {
+          event.preventDefault();
+      }
+    });
+    self.window.addEventListener("keydown", (event) => {
+      if (event.key === "Escape" && this.modal.open) {
+        event.preventDefault();
+      }
+    });
   }
 
   show(header, body, btn1, btn1Callback, btn2, btn2Callback) {
+    this.modal.close();
     this.header.innerHTML = header || "";
     this.body.innerHTML = body || "Seems something is off :)";
     this._btn1Callback = btn1Callback || (async () => { })
@@ -39,7 +66,7 @@ class Modal {
     }
     return new Promise(resolve => {
       this._utilCallback = resolve;
-      this.modal.showModal();
+      this.modal.show();
     })
   }
 
@@ -47,6 +74,8 @@ class Modal {
     this.modal.close();
   }
 }
+
+
 
 class MicBar {
   constructor() {
@@ -68,3 +97,28 @@ class MicBar {
 }
 export const micBar = new MicBar();
 export const modal = new Modal();
+
+export function showAssetLoadModal() {
+  const progresBar = document.querySelector(".modal-progress")
+  const loadingProgresBar = document.querySelector(".loading-progress-bar");
+
+  progresBar.classList.remove("d-none")
+  modal.show(
+    "Loading..",
+    "Preparing your browser for survival."
+  )
+  assetStatus.events.addEventListener("load", () => {
+    progresBar.classList.add("d-none")
+  })
+  assetStatus.events.addEventListener("loadError", () => {
+    progresBar.innerHTML = `
+      <strong style="color: red; font-size: 0.9rem;">
+        Oops! something went wrong loading the assets..
+        <br>Please try again later!
+        <br><small>( Chances for govt take down != 0 )</small>
+      </strong>`
+  })
+  assetStatus.events.addEventListener("progress", () => {
+    loadingProgresBar.style.width = `${(assetStatus.loadedAssets / assetStatus.totalAssets) * 100}%`
+  })
+}

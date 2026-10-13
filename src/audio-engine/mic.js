@@ -1,3 +1,10 @@
+export class MicNotFoundError extends Error {
+  constructor(msg) {
+    super(msg)
+    this.name = "MicNotFoundError"
+  }
+}
+
 export class MicMeter extends EventTarget {
   /**
    * @param {Number} threshold - 0 to 1
@@ -25,7 +32,7 @@ export class MicMeter extends EventTarget {
   async init() {
     if (this.stream) return;
     if (!navigator.mediaDevices?.getUserMedia) {
-      throw "Mic not supported (needs https or localhost)";
+      throw new MicNotFoundError("Mic not supported (needs https or localhost)")
     }
     this.stream = await navigator.mediaDevices.getUserMedia({
       audio: {

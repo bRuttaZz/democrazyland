@@ -6,6 +6,7 @@ export const assetStore = {
     heroRun: null,
     heroJump: null,
     heroStand: null,
+    storyFrames: null,
   },
   audio: {
     // Object<String, ArrayBuffer>
@@ -47,6 +48,7 @@ const imgAssetSrc = {
     new URL("../../assets/imgs/hero-run-1.png", import.meta.url),
   ],
 
+  storyFrames: [],
 
 };
 
@@ -120,6 +122,7 @@ export function loadAudioAssets() {
         })
         .catch((err) => {
           console.error(`[assetStore][audio] error loading audio :`, err);
+          assetStatus.events.dispatchEvent(new Event("loadError"));
           reject(err);
         });
     });

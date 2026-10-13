@@ -4,7 +4,7 @@
   "description": "A supermario like clone",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "parcel serve index.html",
+    "dev": "parcel serve --https index.html",
     "build": "parcel build index.html --no-autoinstall --dist-dir build --no-source-maps --public-url=./"
   },
   "author": "bRuttaZz",

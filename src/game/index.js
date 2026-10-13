@@ -11,7 +11,8 @@ import { BGMaker } from "./bg.js";
 import { Obstacles } from "./obstacles.js";
 import { DEBUG, CHARACTER_VARS } from "./conf.js";
 import { ScatteringConfetti } from "./tada.js"
-import { modal } from "../utils/ui.js";
+import { Story } from "./story.js"
+
 
 export class Game extends EventTarget{
   /**
@@ -21,6 +22,7 @@ export class Game extends EventTarget{
   constructor(sketcher) {
     super();
     this.sketcher = sketcher;
+    this.story = new Story(this.sketcher);
     this.objects = new Objects(this.sketcher);
     this.bgMaker = new BGMaker(this.sketcher);
     this.obstacles = new Obstacles(this.sketcher);
@@ -62,10 +64,12 @@ export class Game extends EventTarget{
   /**
    * Bind characters and game listerns
    */
-  start() {
-    audioEngine.play("start");
-    audioEngine.playInBg("bgMain");
+  async start(freshStart=false) {
     audioEngine.playInBg("bgNoise");
+    if (freshStart) await this.story.tellStory()
+    this.dispatchEvent(new Event("start"))
+    audioEngine.playInBg("bgMain");
+    audioEngine.play("start");
     micMeter.start();
     this.objects.bind();
     registerCharacterJumpKeyBindings();
