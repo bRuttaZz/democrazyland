@@ -1,5 +1,3 @@
-# A simple Mario Like Game engine
+# DemoCrazyLand
 
-WIP
-
-#vibecoding
+#indiaScam #voteChori #zeroAI
