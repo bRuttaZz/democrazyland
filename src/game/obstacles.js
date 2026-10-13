@@ -29,6 +29,9 @@ export class Obstacles {
         this.completed = true
       }
     }
+    if (ANIMATION_VARS.spaceAnimator.odometer > 4500) {
+      document.querySelector(".mic-hint").classList.add("d-none");
+    }
   }
 }
 

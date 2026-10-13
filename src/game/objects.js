@@ -2,6 +2,7 @@ import { GameObject } from "../engine/game-object.js";
 import { INFOTILE_ZINDEX, MAIN_CHARACTER_OBJ_NAME, CHARACTER_ZINDEX, CHARACTER_X_INIT, CHARACTER_Y_INIT } from "./conf.js";
 import { CANVAS_DIMENTIONS } from "../engine/conf.js"
 import { assetStore } from "../utils/asset-man.js"
+import { audioEngine } from "../audio-engine/engine.js"
 
 
 export class Objects {
@@ -28,7 +29,7 @@ export class Objects {
 export const directionObjectMaker = (sketcher) => {
   const directionObject = new GameObject("directionObject", {
     x: CANVAS_DIMENTIONS.width / 2 - 150,
-    y: 200,
+    y: 400,
     width: 300,
     height: 180,
     zIndex: INFOTILE_ZINDEX,
@@ -92,6 +93,10 @@ export const heroMaker = (sketcher) => {
   mainCharacter.skinIdleIndex = 0;
   mainCharacter.skinArrayRunIndexMax = assetStore.img.heroRun.length;
   mainCharacter.skinIdleIndexMax = assetStore.img.heroStand.length;
+
+  mainCharacter.addEventListener("jump", () => {
+    audioEngine.play("jump")
+  })
 
   return mainCharacter;
 }

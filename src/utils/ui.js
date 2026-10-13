@@ -48,4 +48,23 @@ class Modal {
   }
 }
 
+class MicBar {
+  constructor() {
+    this.el = document.querySelector(".mic-bar");
+    this.threshold = 0.6;
+  }
+  show() { this.el.classList.remove("d-none"); }
+  hide() { this.el.classList.add("d-none"); }
+
+  setThreshold(threshold) {
+    this.threshold = threshold;
+    this.el.style.setProperty("--threshold", threshold);
+  }
+
+  update(level, isLoud) {
+    this.el.style.setProperty("--level", level.toFixed(3));
+    this.el.classList.toggle("is-loud", isLoud);
+  }
+}
+export const micBar = new MicBar();
 export const modal = new Modal();

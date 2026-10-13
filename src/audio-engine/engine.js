@@ -80,6 +80,7 @@ export class AudioEngine {
     });
     audioNode.connect(this.context.destination);
     audioNode.start(0);
+    this.bgPlayerNodes[name] = audioNode
     return audioNode;
   }
 

@@ -46,10 +46,10 @@ function _characterJumpObjectAnimator(_zindex, item) {
       item.yVelocityVector = JUMP_VELOCITY;
       setTimeout(() => {
         if (CHARACTER_VARS.jumping) {
-          item.yVelocityVector += JUMP_VELOCITY / 2;
+          item.yVelocityVector += JUMP_VELOCITY / 3;
         }
         CHARACTER_VARS.jumping = false;
-      }, 250);
+      }, 400);
     }
     if (item.isGrounded) {
       CHARACTER_VARS.onAir = false;
@@ -76,7 +76,7 @@ function _leftieSpaceAnimDecider(_zindex, item) {
     item.x <= CHARACTER_X_INIT - (item.stopAtXRelativeToMainChar || 200)
   ){
     item.spaceAnimation = false;
-    item.proChar = true;
+    // item.proChar = true;
   }
 }
 

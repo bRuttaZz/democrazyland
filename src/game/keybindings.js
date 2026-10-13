@@ -1,4 +1,5 @@
 import { CHARACTER_VARS } from "./conf.js";
+import { micMeter } from "../audio-engine/mic.js"
 
 export function registerCharacterJumpKeyBindings() {
   const paddle = document.querySelector(".paddle-jump");
@@ -29,4 +30,8 @@ export function registerCharacterJumpKeyBindings() {
     action(false);
     e.preventDefault();
   });
+
+  // mic
+  micMeter.addEventListener("loud", ()=>action(true));
+  micMeter.addEventListener("quiet", ()=>action(false));
 }
