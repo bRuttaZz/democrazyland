@@ -27,6 +27,7 @@ export class Game extends EventTarget{
     this.bgMaker = new BGMaker(this.sketcher);
     this.obstacles = new Obstacles(this.sketcher);
     this.victoryPop = new ScatteringConfetti(this.sketcher);
+    this.bfrStartCallback = async () => { };
     if (DEBUG)
       this.sketcher.fpsIndicator = document.querySelector(".fps-value");
 
@@ -63,13 +64,16 @@ export class Game extends EventTarget{
    * Bind characters and game listerns
    */
   async start(freshStart=false) {
-    audioEngine.playInBg("bgNoise");
-    if (freshStart) await this.story.tellStory()
-    audioEngine.stopInBg("bgNoise")
+    if (freshStart) {
+      const audiobg1 = audioEngine.play("filmNoise", { loop: true })
+      await this.story.tellStory()
+      await this.bfrStartCallback();
+      audiobg1.stop();
+    }
 
     this.dispatchEvent(new Event("start"))
     audioEngine.playInBg("bgMain");
-    audioEngine.play("start");
+    // audioEngine.play("start");
     micMeter.start();
     this.objects.bind();
     registerCharacterJumpKeyBindings();

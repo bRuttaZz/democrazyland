@@ -9,8 +9,6 @@ export class Story {
   * @param {Sketcher} canvas
   */
   constructor(sketcher) {
-    this.frames = assetStore.img.storyFrames
-
     this.sketcher = sketcher;
     this.canvas = sketcher.canvas;
     this.context = sketcher.cntxt;
@@ -42,7 +40,8 @@ export class Story {
   }
 
   drawFrame(index) {
-    this.canvas.style.backgroundImage = `url("${this.frames[index].src}")`;
+    console.log(index, ">>>", assetStore.img.storyFrames, assetStore.img)
+    this.canvas.style.backgroundImage = `url("${assetStore.img.storyFrames[index].src}")`;
   }
 
   sleep(time) {
@@ -55,17 +54,24 @@ export class Story {
     await this.sleep(1000);
 
     const intervel = setInterval(this._addGrain.bind(this, 0.6), 100);
-    const audiobg1 = audioEngine.play("bgNoise", { loop: true })
 
-//     audioEngine.play("storyShutter");
-//     this.drawFrame(0);
-//     await this.sleep(2000);
-//
-//     audioEngine.play("storyShutter");
-//     this.drawFrame(1);
-//     await this.sleep(2000);
+    audioEngine.play("shutter");
+    this.drawFrame(0);
+    await this.sleep(2000);
 
-    audiobg1.stop();
+    audioEngine.play("shutter");
+    this.drawFrame(1);
+    await this.sleep(2000);
+
+    audioEngine.play("shutter");
+    this.drawFrame(2);
+    await this.sleep(2000);
+
+    audioEngine.play("shutter");
+    this.drawFrame(3);
+    await this.sleep(2000);
+
+    audioEngine.play("shutter");
     clearInterval(intervel);
     this.canvas.style.backgroundImage = this.originalBg;
   }

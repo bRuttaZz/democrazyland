@@ -1,5 +1,8 @@
 export const assetStore = {
   img: {
+    idleBg: null,
+    storyFrames: null,
+
     // Object<String, Array<HTMLImageElement>>
     bg: null,
     platform: null,
@@ -26,11 +29,12 @@ export const assetStore = {
     cockroachStand: null,
     mnaRun: null,
     mnaStand: null,
-
-    storyFrames: null,
+    utils: null,
   },
   audio: {
     // Object<String, ArrayBuffer>
+    shutter: null,
+    filmNoise: null,
     start: null,
     jump: null,
     gameOver: null,
@@ -54,6 +58,15 @@ export const assetStatus = {
 }
 
 const imgAssetSrc = {
+  idleBg: [
+    new URL("../../assets/imgs/bg_.png", import.meta.url),
+  ],
+  storyFrames: [
+    new URL("../../assets/imgs/story1.png", import.meta.url),
+    new URL("../../assets/imgs/story2.png", import.meta.url),
+    new URL("../../assets/imgs/story3.png", import.meta.url),
+    new URL("../../assets/imgs/story4.png", import.meta.url),
+  ],
   bg: [
     new URL("../../assets/imgs/bg0.png", import.meta.url),
     new URL("../../assets/imgs/bg1.png", import.meta.url),
@@ -154,14 +167,15 @@ const imgAssetSrc = {
     new URL("../../assets/imgs/mna-idle-1.png", import.meta.url),
     new URL("../../assets/imgs/mna-idle-2.png", import.meta.url),
   ],
-
-
-  // story frames
-  storyFrames: [],
-
+  utils: [
+    new URL("../../assets/imgs/headphone.png", import.meta.url),
+  ]
 };
 
 const audioAssetSrc = {
+  filmNoise: new URL("../../assets/audio/noise.mp3", import.meta.url),
+  shutter: new URL("../../assets/audio/shutter.wav", import.meta.url),
+
   start: new URL("../../assets/audio/start.mp3", import.meta.url),
   jump: new URL("../../assets/audio/jump.mp3", import.meta.url),
   gameOver: new URL("../../assets/audio/game-over.mp3", import.meta.url),

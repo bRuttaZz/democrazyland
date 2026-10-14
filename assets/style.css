@@ -253,6 +253,10 @@ dialog button:disabled {
     height: 100%;
     border-radius: 10px;
     background-color: var(--canvas-bg);
+    background-image: url("imgs/bg_.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .canvas-overlay {

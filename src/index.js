@@ -33,16 +33,40 @@ async function main() {
   let day = self.localStorage.getItem("day") || 0
   day = parseInt(day)
 
-  const initRes = await modal.show(
+  const inits = async () => {
+    await micMeter.init();
+  }
+
+  let initRes = await modal.show(
     "Lets Go!",
     `Day <b>${day}</b>. Welcome to <b>DemoCrazyLand</b>. <br>Your journey begins.`,
     day ? "Let's win this time!" : "Dive in",
     async () => {
       wakeLock.keepAwake();
-      await micMeter.init();
       await audioEngine.init(assetStore.audio);
-    }
+      if (day)
+        inits()
+      audioEngine.play("appear");
+    },
   );
+  if (!day) {
+    initRes = await modal.show(
+      null,
+      `<div>
+        <img src="${assetStore.img.utils[0].src}" width="100px">
+      </div>
+      <p>
+        <b>Mic required:</b> you'll be shouting slogans.
+        <br>Find a quiet corner and allow mic access.
+        <br>Freedom of speech, finally put to use!
+      </p>`,
+      "Grant Mic",
+      async () => {
+        audioEngine.play("appear");
+        await inits()
+      },
+    );
+  }
   if (initRes) {
     console.error("Error init: ", initRes);
     let error = `<strong style="color: red; font-size: 0.8rem;">Oops! Something went wrong..<br>Please try again later.</strong>`
@@ -65,6 +89,10 @@ async function main() {
   const canvas = document.querySelector(".game-canvas");
   const sketcher = new Sketcher(canvas);
   const game = new Game(sketcher);
+  game.bfrStartCallback = (async () => {
+    await modal.show("Start Game?", "Help <b>Hero-Bora</b> find the stolen treasure.", "Play",);
+    audioEngine.play("appear");
+  })
 
   micBar.setThreshold(micMeter.threshold);
   micMeter.addEventListener("level", (detail) => { micBar.update(detail.detail?.level, detail.detail?.isLoud) });
