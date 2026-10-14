@@ -19,8 +19,7 @@ export class BGMaker {
     this.layers = assetStore.img.bg;
     this.garbageCounter = 0
 
-    const sampleBg = assetStore.img.bg[0]
-    this.imgWidth = CANVAS_DIMENTIONS.height * sampleBg.width / sampleBg.height
+    this.imgWidths = assetStore.img.bg.map(img => CANVAS_DIMENTIONS.height * img.width / img.height);
 
     this.sketcherZindices.forEach((zi, i) => {
       ANIMATION_VARS.spaceAnimator.hzntlSpeed[zi] = this.spaceAnimation[i]
@@ -34,7 +33,7 @@ export class BGMaker {
       skin: this.layers[layerIndex],
       x: this.layerXNow[layerIndex] + this.spaceAnimation[layerIndex] - 12, // adding a salt as well
       y: 0,
-      width: this.imgWidth,
+      width: this.imgWidths[layerIndex],
       height: CANVAS_DIMENTIONS.height,
       zIndex: this.sketcherZindices[layerIndex],
       gravity: false,
@@ -44,7 +43,7 @@ export class BGMaker {
       disappearOnCollision: false
     })
     this.sketcher.addItem(this.sketcherZindices[layerIndex], layer)
-    this.layerXNow[layerIndex] += this.imgWidth;
+    this.layerXNow[layerIndex] += this.imgWidths[layerIndex];
     console.debug("new bg created")
   }
 

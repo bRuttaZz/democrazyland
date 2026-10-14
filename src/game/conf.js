@@ -5,7 +5,7 @@ import { ANIMATION_VARS } from "../engine/conf.js"
 export const DEBUG = false;
 
 export const MAIN_CHARACTER_OBJ_NAME = "Neha-Bora";
-export const JUMP_VELOCITY = -60;
+export const JUMP_VELOCITY = -65;
 
 export const CHARACTER_X_INIT = 500;
 export const CHARACTER_Y_INIT = 1700;
@@ -15,6 +15,7 @@ export const INFOTILE_ZINDEX = CHARACTER_ZINDEX + 1;
 export const WEAK_OBJ_DISANCE = 200;
 export const COWARD_OBJ_DISANCE = 400;
 
+export const CHARACTER_VARS_EVENTS = new EventTarget();
 export const CHARACTER_VARS = watchObject({
   xPos: CHARACTER_X_INIT,
   jumping: false,
@@ -31,4 +32,9 @@ export const CHARACTER_VARS = watchObject({
       ANIMATION_VARS.spaceAnimator.status = obj.onAir || !value
       break
   }
+  if (ANIMATION_VARS.spaceAnimator.status && !obj.onAir)
+    CHARACTER_VARS_EVENTS.dispatchEvent(new Event("walk-start"))
+  else
+    CHARACTER_VARS_EVENTS.dispatchEvent(new Event("walk-stop"))
+
 });

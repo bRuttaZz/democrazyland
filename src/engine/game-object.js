@@ -257,7 +257,7 @@ export class GameObject extends EventTarget {
     this.x = this._newX;
     this.y = this._newY;
     if (
-      this.x + this.width + 800 < 0 ||
+      this.x + this.width + 1000 < 0 ||
       // this.y + this.height < 0 || // forgive objects going to top (they may come back ;)
       // this.x > CANVAS_DIMENTIONS.width ||  // forgive objects in the right direction
       this.y > CANVAS_DIMENTIONS.height

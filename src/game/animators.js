@@ -46,7 +46,7 @@ function _characterJumpObjectAnimator(_zindex, item) {
       item.yVelocityVector = JUMP_VELOCITY;
       setTimeout(() => {
         if (CHARACTER_VARS.jumping) {
-          item.yVelocityVector += JUMP_VELOCITY / 3;
+          item.yVelocityVector += JUMP_VELOCITY / 2;
         }
         CHARACTER_VARS.jumping = false;
       }, 400);
@@ -77,6 +77,7 @@ function _leftieSpaceAnimDecider(_zindex, item) {
   ){
     item.spaceAnimation = false;
     item.proChar = true;
+    item.dispatchEvent(new Event("joined"))
   }
 }
 
@@ -123,10 +124,15 @@ function _obstacleActionLogics(_zindex, item) {
   if (
     item.name.startsWith("coward-obstacle")
   ) {
-    const xDiff = item.x - CHARACTER_VARS.xPos
-    if (xDiff <= COWARD_OBJ_DISANCE) {
+    if (item.__escaping) {
       item.xVelocityVector = 30
-      item.dispatchEvent(new Event("velocity-flipped"))
+    } else {
+      const xDiff = item.x - CHARACTER_VARS.xPos
+      if (xDiff <= COWARD_OBJ_DISANCE) {
+        item.__escaping = true
+        item.xVelocityVector = 30
+        item.dispatchEvent(new Event("velocity-flipped"))
+      }
     }
   }
   if (
@@ -141,7 +147,7 @@ function _obstacleActionLogics(_zindex, item) {
     item.name.startsWith("victory-obstacle")
   ) {
     const xDiff = item.x - CHARACTER_VARS.xPos
-    if (xDiff <= 500) {
+    if (xDiff <= 200) {
       item.dispatchEvent(new Event("collided"))
     }
   }

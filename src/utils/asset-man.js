@@ -34,7 +34,16 @@ export const assetStore = {
     start: null,
     jump: null,
     gameOver: null,
-    tada: null
+    tada: null,
+    footStep: null,
+    police: null,
+    knockChair: null,
+    appear: null,
+    glitch: null,
+    happyAppear: null,
+    muteScream: null,
+    RSSStart: null,
+    accepter: null,
   },
 };
 
@@ -161,6 +170,15 @@ const audioAssetSrc = {
   bgMain: new URL("../../assets/audio/bg-loop.mp3", import.meta.url),
   bgNoise: new URL("../../assets/audio/noise-loop.mp3", import.meta.url),
 
+  footStep: new URL("../../assets/audio/foot-steps.mp3", import.meta.url),
+  police: new URL("../../assets/audio/police-start.mp3", import.meta.url),
+  knockChair: new URL("../../assets/audio/knock-chair.mp3", import.meta.url),
+  appear: new URL("../../assets/audio/appear.mp3", import.meta.url),
+  glitch: new URL("../../assets/audio/glitch.mp3", import.meta.url),
+  happyAppear: new URL("../../assets/audio/happy-appear.mp3", import.meta.url),
+  muteScream: new URL("../../assets/audio/mute-scream.mp3", import.meta.url),
+  RSSStart: new URL("../../assets/audio/RSS-start.mp3", import.meta.url),
+  accepter: new URL("../../assets/audio/accepter.mp3", import.meta.url),
 };
 
 /**

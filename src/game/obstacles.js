@@ -1,4 +1,5 @@
 import { ANIMATION_VARS, CANVAS_DIMENTIONS } from "../engine/conf.js"
+import { audioEngine } from "../audio-engine/engine.js"
 import { GameObject } from "../engine/game-object.js";
 import { assetStore } from "../utils/asset-man.js";
 import { CHARACTER_ZINDEX, MAIN_CHARACTER_OBJ_NAME, CHARACTER_X_INIT, CHARACTER_Y_INIT, CHARACTER_VARS } from "./conf.js"
@@ -30,8 +31,13 @@ export class Obstacles {
         this.completed = true
       }
     }
+
+    // I know, lazy writing..
     if (ANIMATION_VARS.spaceAnimator.odometer > 4500) {
       document.querySelector(".mic-hint").classList.add("d-none");
+    }
+    else if (ANIMATION_VARS.spaceAnimator.odometer > 400) {
+      document.querySelector(".mic-hint").classList.remove("d-none");
     }
   }
 }
@@ -46,15 +52,15 @@ Obstacles.chart = {
   6350: _leftieMakerCockroach,// pro to us
   6400: _leftieMaker,         // pro to us
 
-  7350: _rssMaker,
-  9350: _barricadeMaker,
-  10350: _policeMaker,     // life threatening
-  11350: _barricadeMaker,
-  12350: _RSSMaker,        // life threatening
-  13350: _barricadeMaker,
-  14350: _ModiMaker,       // run against
-  15850: _ECChairMaker,    // fly away
-  16850: _BallotBox,       // victory
+  7650: _rssMaker,
+  9650: _barricadeMaker,
+  10650: _policeMaker,     // life threatening
+  11650: _barricadeMaker,
+  12650: _RSSMaker,        // life threatening
+  13650: _barricadeMaker,
+  14650: _ModiMaker,       // run against
+  16350: _ECChairMaker,    // fly away
+  17350: _BallotBox,       // victory
 }
 
 function __baseObstacle() {
@@ -103,6 +109,7 @@ function _unclesMaker(sketcher) {
   obstcl.idleSkinArray = assetStore.img.uncles
   obstcl.idleSkinArrayIndex = 0
   obstcl.idleSkinArrayIndexMax = assetStore.img.uncles.length
+  audioEngine.play("appear")
   return obstcl;
 }
 
@@ -122,6 +129,8 @@ function _godiMediaMaker(sketcher) {
   obstcl.idleSkinArray = assetStore.img.media
   obstcl.idleSkinArrayIndex = 0
   obstcl.idleSkinArrayIndexMax = assetStore.img.media.length
+  audioEngine.play("glitch")
+
   return obstcl;
 }
 
@@ -137,9 +146,9 @@ function _leftieMaker(sketcher) {
   obstcl.ignoreCollisionExceptBottom = [MAIN_CHARACTER_OBJ_NAME, "leftie2"]
   obstcl.fill = "red";
 
-  obstcl.leftOffset = 80
-  obstcl.rightOffset = 80
-  obstcl.topOffset = 100
+  obstcl.leftOffset = 60
+  obstcl.rightOffset = 60
+  obstcl.topOffset = 70
   obstcl.bottomOffset = 20
 
   obstcl.idleChar = true
@@ -156,7 +165,9 @@ function _leftieMaker(sketcher) {
   obstcl.skinIdleIndex = 0;
   obstcl.skinArrayRunIndexMax = assetStore.img.leftieRun.length;
   obstcl.skinIdleIndexMax = assetStore.img.leftieStand.length;
-
+  obstcl.addEventListener("joined", () => {
+    audioEngine.play("accepter")
+  }, {once: true})
   return obstcl;
 }
 /**
@@ -167,13 +178,13 @@ function _leftieMakerCockroach(sketcher) {
   const obstcl = __baseObstacle()
   obstcl.name = "leftie2"
   obstcl.jumpDelayIndex = 0
-  obstcl.stopAtXRelativeToMainChar = 250
+  obstcl.stopAtXRelativeToMainChar = 200
   obstcl.ignoreCollisionExceptBottom = [MAIN_CHARACTER_OBJ_NAME, "leftie1"]
   obstcl.fill = "brown";
 
-  obstcl.leftOffset = 80
-  obstcl.rightOffset = 80
-  obstcl.topOffset = 100
+  obstcl.leftOffset = 60
+  obstcl.rightOffset = 60
+  obstcl.topOffset = 70
   obstcl.bottomOffset = 20
 
   obstcl.idleChar = true
@@ -190,6 +201,7 @@ function _leftieMakerCockroach(sketcher) {
   obstcl.skinIdleIndex = 0;
   obstcl.skinArrayRunIndexMax = assetStore.img.cockroachRun.length;
   obstcl.skinIdleIndexMax = assetStore.img.cockroachStand.length;
+  audioEngine.play("happyAppear")
 
   return obstcl;
 }
@@ -210,6 +222,8 @@ function _rssMaker(sketcher) {
   obstcl.idleSkinArray = assetStore.img.rss
   obstcl.idleSkinArrayIndex = 0
   obstcl.idleSkinArrayIndexMax = assetStore.img.rss.length
+  audioEngine.play("appear")
+
   return obstcl;
 }
 
@@ -232,6 +246,8 @@ function _policeMaker(sketcher) {
   obstcl.idleSkinArray = assetStore.img.police
   obstcl.idleSkinArrayIndex = 0
   obstcl.idleSkinArrayIndexMax = assetStore.img.police.length
+
+  audioEngine.play("police")
   return obstcl;
 }
 
@@ -254,6 +270,7 @@ function _RSSMaker(sketcher) {
   obstcl.idleSkinArray = assetStore.img.rssKalip
   obstcl.idleSkinArrayIndex = 0
   obstcl.idleSkinArrayIndexMax = assetStore.img.rssKalip.length
+  audioEngine.play("RSSStart")
   return obstcl;
 }
 
@@ -282,7 +299,9 @@ function _ModiMaker(sketcher) {
     obstcl.idleSkinArray = assetStore.img.mnaRun
     obstcl.idleSkinArrayIndex = 0
     obstcl.idleSkinArrayIndexMax = assetStore.img.mnaRun.length
+    audioEngine.play("muteScream");
   })
+  audioEngine.play("appear");
 
   return obstcl;
 }
@@ -308,8 +327,12 @@ function _ECChairMaker(sketcher) {
 
   obstcl.addEventListener("collided", () => {
     obstcl.zIndex = CHARACTER_ZINDEX + 1
+    obstcl.yVelocityVector += -2.2
+    obstcl.xVelocityVector += 2.2
     sketcher.changeItemZindex(CHARACTER_ZINDEX + 1, CHARACTER_ZINDEX, obstcl);
+    audioEngine.play("knockChair")
   })
+  audioEngine.play("appear")
   return obstcl;
 }
 
@@ -323,8 +346,8 @@ function _BallotBox(sketcher) {
   obstcl.fill = "green";
   obstcl.ignoreCollisionExceptBottom = ["coward-obstacle-mna", ]
 
-  obstcl.leftOffset = 400
-  obstcl.rightOffset = 0
+  obstcl.leftOffset = 200
+  obstcl.rightOffset = 200
   obstcl.topOffset = 100
   obstcl.bottomOffset = 150
 
@@ -339,5 +362,6 @@ function _BallotBox(sketcher) {
     sketcher.dispatchEvent(new Event("victory"))
   }
   obstcl.addEventListener("collided", vicrotyHandler)
+  // audioEngine.play("happyAppear")
   return obstcl;
 }

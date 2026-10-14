@@ -9,7 +9,7 @@ import { registerCharacterJumpKeyBindings } from "./keybindings.js";
 import { Objects } from "./objects.js"
 import { BGMaker } from "./bg.js";
 import { Obstacles } from "./obstacles.js";
-import { DEBUG, CHARACTER_VARS } from "./conf.js";
+import { DEBUG, CHARACTER_VARS, CHARACTER_VARS_EVENTS } from "./conf.js";
 import { ScatteringConfetti } from "./tada.js"
 import { Story } from "./story.js"
 
@@ -38,12 +38,11 @@ export class Game extends EventTarget{
     this.sketcher.addEventListener("victory", async () => {
       this.dispatchEvent(new Event("victory"));
       audioEngine.play("tada");
-      audioEngine.stopInBg("bgNoise")
       audioEngine.stopInBg("bgMain")
       micMeter.stop();
-      CHARACTER_VARS.onControl = false
       CHARACTER_VARS.standing = true
       CHARACTER_VARS.jumping = true
+      CHARACTER_VARS.onControl = false
       ANIMATION_VARS.spaceAnimator.status = false
       setTimeout(() => {
         CHARACTER_VARS.jumping = false;
@@ -54,7 +53,6 @@ export class Game extends EventTarget{
     this.sketcher.addEventListener("wasted", () => {
       this.dispatchEvent(new Event("wasted"));
       audioEngine.play("gameOver");
-      audioEngine.stopInBg("bgNoise")
       audioEngine.stopInBg("bgMain")
       micMeter.stop();
       sketcher.stop();
@@ -67,6 +65,8 @@ export class Game extends EventTarget{
   async start(freshStart=false) {
     audioEngine.playInBg("bgNoise");
     if (freshStart) await this.story.tellStory()
+    audioEngine.stopInBg("bgNoise")
+
     this.dispatchEvent(new Event("start"))
     audioEngine.playInBg("bgMain");
     audioEngine.play("start");
@@ -74,6 +74,22 @@ export class Game extends EventTarget{
     this.objects.bind();
     registerCharacterJumpKeyBindings();
     this.sketcher.start();
+
+    // foot steps
+    let footSteps = audioEngine.play("footStep");
+    footSteps.playing = true;
+    CHARACTER_VARS_EVENTS.addEventListener("walk-start", () => {
+      if (!footSteps.playing) {
+        footSteps = audioEngine.play("footStep")
+        footSteps.playing = true;
+      }
+    })
+    CHARACTER_VARS_EVENTS.addEventListener("walk-stop", () => {
+      if (footSteps.playing) {
+        footSteps.stop()
+        footSteps.playing = false;
+      }
+    });
   }
 
   /**

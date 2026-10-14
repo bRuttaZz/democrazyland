@@ -12,6 +12,7 @@
     --modal-head-font: #761313;
     --modal-backdrop: rgba(0, 0, 0, 0.2);
     --modal-btn-clr: #ff000080;
+    --modal-btn-clr2: #ff000045;
     --modal-btn-font: black;
     --progress-bar-bg: #dfdfdf;
     --progress-bar-color: #ff3f3f;
@@ -54,6 +55,10 @@ h2 {
     color: var(--title-color);
 }
 
+body {
+    padding-top: 50px;
+}
+
 dialog {
     inset: 0;
     margin: auto;
@@ -66,12 +71,20 @@ dialog {
     background-color: var(--modal-clr);
     box-shadow: 3px 3px 0 var(--ink);
     color: var(--modal-font);
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.big-dialog {
+    width: fit-content !important;
+    max-width: 80% !important;
 }
 
 dialog strong {
+    font-family: "TitleFont";
     font-weight: 600;
     font-size: 1.2rem;
-    color: var(--modal-head-font)
+    color: var(--modal-head-font);
 }
 
 dialog button {
@@ -96,12 +109,11 @@ dialog button:disabled {
     width: 100%;
     display: flex;
     margin-top: -50px;
+    justify-content: right;
 }
 
 .button-region button {
-    margin-left: auto;
     margin-right: 50px;
-
     min-width: 50px;
     min-height: 35px;
     font-weight: 500;
@@ -111,6 +123,11 @@ dialog button:disabled {
     background-color: var(--modal-btn-clr);
     color: white;
     border-radius: 5px;
+}
+
+.cast-btn {
+    margin-right: 10px !important;
+    background-color: var(--modal-btn-clr2) !important;
 }
 
 .source-code {
@@ -125,7 +142,7 @@ dialog button:disabled {
 }
 
 .text-class {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 400;
     justify-content: center;
     align-items: center;
@@ -159,6 +176,54 @@ dialog button:disabled {
     margin-bottom: 1rem;
 }
 
+.row {
+    flex-direction: row;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    text-align: left;
+    align-items: center;
+}
+
+.column.right {
+    width: 50%;
+}
+
+.column.left {
+    width: 20%;
+}
+
+.cast-container {
+    max-height: 60vh;
+    height: fit-content;
+    overflow-y: auto;
+    align-items: flex-start;
+}
+
+.cast-item {
+    display: flex;
+    justify-content: left;
+    text-align: left;
+    align-items: center;
+    height: 100px;
+    width: 100%;
+    font-weight: 600;
+    font-size: 1rem;
+    color: var(--modal-font);
+}
+
+.cast-item.center {
+    text-align: center !important;
+    justify-content: center !important;
+}
+
+.cast-item img {
+    width: 100px;
+}
+
 .modal-body {
     justify-content: center;
     align-items: center;
@@ -170,7 +235,7 @@ dialog button:disabled {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 99vh;
+    height: 95vh;
 }
 
 .game-area {
@@ -369,3 +434,15 @@ dialog button:disabled {
     80%           { transform: rotate(-2deg) scale(0.97); }
 }
 /*Mic instruction END */
+
+footer {
+    margin-top: auto;
+    margin-bottom: 76px;
+    font-size: 0.7rem;
+     color: #dedede;
+}
+
+footer a {
+    color: var(--canvas-bg);
+    text-decoration: none;
+}

@@ -5,6 +5,11 @@ document.querySelector(".start-over-btn")?.addEventListener("click", () => {
   window.location.reload();
 })
 
+document.querySelector(".cast-btn")?.addEventListener("click", () => {
+  const html = document.querySelector(".cast-section");
+  modal.show("Characters.", html.innerHTML, "Close", null, null, null, true, true);
+})
+
 class Modal {
   constructor() {
     this.modal = document.querySelector("dialog");
@@ -16,6 +21,10 @@ class Modal {
     this._btn1Callback = async () => { }
     this._btn2Callback = async () => { }
     this._utilCallback = () => { }
+
+    this._snapshot = false;
+    this._fullModal = false;
+    this._previousStatus = null;
 
     [
       [this.btn1, "_btn1Callback"],
@@ -30,7 +39,8 @@ class Modal {
          } catch (e) {
             return this._utilCallback(e);
          } finally {
-            el[0].disabled = false;
+           el[0].disabled = false;
+           this._utilCallback = () => { }
          }
        })
     });
@@ -48,7 +58,7 @@ class Modal {
     });
   }
 
-  show(header, body, btn1, btn1Callback, btn2, btn2Callback) {
+  _showBase(header, body, btn1, btn1Callback, btn2, btn2Callback, fullModal) {
     this.modal.close();
     this.header.innerHTML = header || "";
     this.body.innerHTML = body || "Seems something is off :)";
@@ -56,6 +66,8 @@ class Modal {
     this._btn2Callback = btn2Callback || (async () => { })
     this.btn1.classList.add("d-none")
     this.btn2.classList.add("d-none")
+    this._fullModal = fullModal
+
     if (btn1) {
       this.btn1.innerText = btn1;
       this.btn1.classList.remove("d-none");
@@ -64,10 +76,62 @@ class Modal {
       this.btn2.innerText = btn2;
       this.btn2.classList.remove("d-none");
     }
-    return new Promise(resolve => {
-      this._utilCallback = resolve;
-      this.modal.show();
-    })
+  }
+
+  async _show() {
+    this.modal.classList.remove("big-dialog")
+    if (this._fullModal) {
+      this.modal.classList.add("big-dialog")
+      return this.modal.showModal();
+    }
+    return this.modal.show();
+  }
+
+  async _callWithSnapshot(callback) {
+    const state = this.modal.open ? {
+      header: this.header.innerHTML,
+      body: this.body.innerHTML,
+      _btn1Callback: this._btn1Callback,
+      _btn2Callback: this._btn2Callback,
+      btn1: this.btn1.innerText,
+      btn2: this.btn2.innerText,
+      _utilCallback: this._utilCallback,
+      fullModal: this._fullModal,
+      snapshot: this._snapshot,
+      _previousStatus: this._previousStatus,
+    } : null
+    this._previousStatus = state;
+    try {
+      return await callback()
+    } finally {
+      if (this._previousStatus) {
+        this.header.innerHTML = this._previousStatus.header;
+        this.body.innerHTML = this._previousStatus.body;
+        this._btn1Callback = this._previousStatus._btn1Callback;
+        this._btn2Callback = this._previousStatus._btn2Callback;
+        this.btn1.innerText = this._previousStatus.btn1;
+        this.btn2.innerText = this._previousStatus.btn2;
+        this._utilCallback = this._previousStatus._utilCallback;
+        this._snapshot = this._previousStatus.snapshot;
+        this._fullModal = this._previousStatus.fullModal;
+        this._previousStatus = this._previousStatus._previousStatus;
+
+        this._show();
+      }
+    }
+  }
+
+  async show(header, body, btn1, btn1Callback, btn2, btn2Callback, fullModal, snapshot) {
+    this._snapshot = snapshot
+    const action = () => {
+      this._showBase(header, body, btn1, btn1Callback, btn2, btn2Callback, fullModal);
+      return new Promise(resolve => {
+        this._utilCallback = resolve;
+        this._show();
+      })
+    }
+    if (this._snapshot) return await this._callWithSnapshot(action)
+    return await action()
   }
 
   close() {
