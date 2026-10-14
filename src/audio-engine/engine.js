@@ -8,6 +8,17 @@ export class AudioEngine {
     this.context = null;
     this.bgPlayerNodes = [];
     this.isInitiated = false;
+    this._resumeOnVisible = false;
+
+    document.addEventListener("visibilitychange", () => {
+      if (!this.context) return;
+      if (document.visibilityState === "hidden") {
+        this._resumeOnVisible = this.context.state === "running";
+        this.context.suspend();
+      } else if (this._resumeOnVisible) {
+        this.context.resume();
+      }
+    });
   }
 
   /**
