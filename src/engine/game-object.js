@@ -140,7 +140,6 @@ export class GameObject extends EventTarget {
       if (this.baseY) {
         this.y = this.baseY;
         this._newY = this.baseY + this.yVelocityVector * ANIMATION_VARS.animationSpeed;
-        // console.log(this.baseY, this._newY, this.yVelocityVector);
       }
       else
         this._newY = this.y + this.yVelocityVector * ANIMATION_VARS.animationSpeed;

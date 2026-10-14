@@ -29,7 +29,7 @@ export class Objects {
 export const directionObjectMaker = (sketcher) => {
   const directionObject = new GameObject("directionObject", {
     x: CANVAS_DIMENTIONS.width - 600,
-    y: 100,
+    y: 300,
     width: 500,
     height: 500,
     zIndex: INFOTILE_ZINDEX,

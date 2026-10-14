@@ -56,7 +56,8 @@ h2 {
 }
 
 body {
-    padding-top: 50px;
+    margin: 0;
+    padding-top: 70px;
 }
 
 dialog {
@@ -108,7 +109,7 @@ dialog button:disabled {
 .button-region {
     width: 100%;
     display: flex;
-    margin-top: -50px;
+    /*margin-top: -50px;*/
     justify-content: right;
 }
 
@@ -197,7 +198,7 @@ dialog button:disabled {
 }
 
 .cast-container {
-    max-height: 60vh;
+    max-height: 60dvh;
     height: fit-content;
     overflow-y: auto;
     align-items: flex-start;
@@ -235,17 +236,17 @@ dialog button:disabled {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 95vh;
+    height: 93dvh;
 }
 
 .game-area {
     position: relative;
     border: none;
-    height: 60vh;
+    height: 70dvh;
     aspect-ratio: 4/5;
-    max-height: 115vw;
-    /*width: 60vw;*/
-    /*height: calc(60vw * 2 / 3);*/
+    max-height: 115dvw;
+    /*width: 60dvw;*/
+    /*height: calc(60dvw * 2 / 3);*/
 }
 
 .game-canvas {
@@ -440,13 +441,13 @@ dialog button:disabled {
 /*Mic instruction END */
 
 footer {
-    margin-top: auto;
+    margin-top: 3dvh;
     margin-bottom: 76px;
-    font-size: 0.7rem;
-     color: #dedede;
+    font-size: 0.75rem;
+    color: #dedede;
 }
 
 footer a {
-    color: var(--canvas-bg);
+    color: #600;
     text-decoration: none;
 }

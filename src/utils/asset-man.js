@@ -34,7 +34,7 @@ export const assetStore = {
   audio: {
     // Object<String, ArrayBuffer>
     shutter: null,
-    filmNoise: null,
+    // filmNoise: null,
     start: null,
     jump: null,
     gameOver: null,
@@ -66,6 +66,8 @@ const imgAssetSrc = {
     new URL("../../assets/imgs/story2.png", import.meta.url),
     new URL("../../assets/imgs/story3.png", import.meta.url),
     new URL("../../assets/imgs/story4.png", import.meta.url),
+    new URL("../../assets/imgs/story5.png", import.meta.url),
+    new URL("../../assets/imgs/story6.png", import.meta.url),
   ],
   bg: [
     new URL("../../assets/imgs/bg0.png", import.meta.url),
@@ -173,7 +175,7 @@ const imgAssetSrc = {
 };
 
 const audioAssetSrc = {
-  filmNoise: new URL("../../assets/audio/noise.mp3", import.meta.url),
+  // filmNoise: new URL("../../assets/audio/noise.mp3", import.meta.url),
   shutter: new URL("../../assets/audio/shutter.wav", import.meta.url),
 
   start: new URL("../../assets/audio/start.mp3", import.meta.url),
@@ -182,7 +184,7 @@ const audioAssetSrc = {
   tada: new URL("../../assets/audio/tada.mp3", import.meta.url),
 
   bgMain: new URL("../../assets/audio/bg-loop.mp3", import.meta.url),
-  bgNoise: new URL("../../assets/audio/noise-loop.mp3", import.meta.url),
+  // bgNoise: new URL("../../assets/audio/noise-loop.mp3", import.meta.url),
 
   footStep: new URL("../../assets/audio/foot-steps.mp3", import.meta.url),
   police: new URL("../../assets/audio/police-start.mp3", import.meta.url),
@@ -193,6 +195,7 @@ const audioAssetSrc = {
   muteScream: new URL("../../assets/audio/mute-scream.mp3", import.meta.url),
   RSSStart: new URL("../../assets/audio/RSS-start.mp3", import.meta.url),
   accepter: new URL("../../assets/audio/accepter.mp3", import.meta.url),
+  bgNew: new URL("../../assets/audio/bg-new.mp3", import.meta.url),
 };
 
 /**

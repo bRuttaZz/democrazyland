@@ -65,7 +65,10 @@ export class Game extends EventTarget{
    */
   async start(freshStart=false) {
     if (freshStart) {
-      const audiobg1 = audioEngine.play("filmNoise", { loop: true })
+      let audiobg1 = null;
+      setTimeout(() => {
+        audiobg1 = audioEngine.play("bgNew", { loop: true }, 1.5)
+      }, 1000)
       await this.story.tellStory()
       await this.bfrStartCallback();
       audiobg1.stop();

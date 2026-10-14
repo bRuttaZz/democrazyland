@@ -40,7 +40,6 @@ export class Story {
   }
 
   drawFrame(index) {
-    console.log(index, ">>>", assetStore.img.storyFrames, assetStore.img)
     this.canvas.style.backgroundImage = `url("${assetStore.img.storyFrames[index].src}")`;
   }
 
@@ -51,27 +50,37 @@ export class Story {
   async tellStory() {
     this.context.fillColor = "#eee";
     this.context.fillRect(0, 0, this.canvas.width, this.canvas.height);
-    await this.sleep(1000);
+    await this.sleep(2000);
 
     const intervel = setInterval(this._addGrain.bind(this, 0.6), 100);
+    const shutterVolume = 0.8
 
-    audioEngine.play("shutter");
+    audioEngine.play("shutter", {}, shutterVolume);
     this.drawFrame(0);
     await this.sleep(2000);
 
-    audioEngine.play("shutter");
+    audioEngine.play("shutter", {}, shutterVolume);
     this.drawFrame(1);
     await this.sleep(2000);
 
-    audioEngine.play("shutter");
+    audioEngine.play("shutter", {}, shutterVolume);
     this.drawFrame(2);
     await this.sleep(2000);
 
-    audioEngine.play("shutter");
+    audioEngine.play("shutter", {}, shutterVolume);
     this.drawFrame(3);
     await this.sleep(2000);
 
-    audioEngine.play("shutter");
+    audioEngine.play("shutter", {}, shutterVolume);
+    this.drawFrame(4);
+    await this.sleep(2000);
+
+    audioEngine.play("shutter", {}, shutterVolume);
+    this.drawFrame(5);
+    await this.sleep(2500);
+
+
+    audioEngine.play("shutter", {}, shutterVolume);
     clearInterval(intervel);
     this.canvas.style.backgroundImage = this.originalBg;
   }
